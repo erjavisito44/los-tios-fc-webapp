@@ -1,0 +1,15 @@
+{
+  "name": "LOS TIOS FC - Centro de Control",
+  "short_name": "LOS TIOS FC",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B0B0C",
+  "theme_color": "#0B0B0C",
+  "icons": [
+    {
+      "src": "/escudo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
