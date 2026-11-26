@@ -24,11 +24,8 @@ import {
   Sliders,
   FileText,
   CheckCircle2,
-  BookOpen,
   Scale,
   Sparkles,
-  Copy,
-  Check,
 } from 'lucide-react';
 
 // ============================================================================
@@ -293,24 +290,6 @@ const postMatchReportsData = {
   },
 };
 
-const UPDATE_GUIDE_MARKDOWN = `# INSTRUCCIONES_ACTUALIZACION.md — LOS TIOS FC
-
-## Procedimiento semanal (GitHub + Netlify)
-1. Revisa la web oficial del IMD de Sevilla y OnzeGol (https://onzegol.com/e/los-tios).
-2. Haz capturas de:
-   - Resultados de la jornada disputada y horarios/pistas del calendario.
-   - Clasificación actualizada del IMD.
-   - Estadísticas individuales de LOS TIOS FC en OnzeGol (goles, asistencias, MVP, amarillas, paradas).
-3. Envía las capturas a Gemini indicando la jornada a actualizar.
-4. Gemini actualiza únicamente los registros afectados conservando el historial y los informes PREPARTIDO previos.
-5. Sube o publica los cambios en tu repositorio / Netlify para que todos los visitantes vean los nuevos datos.
-
-## Reglas de integridad
-- No borrar partidos anteriores ni estadísticas históricas.
-- Mantener la nomenclatura unificada: LOS TIOS FC.
-- Conservar informes PREPARTIDO al generar el bloque POSTPARTIDO de un encuentro disputado.
-- No inventar estadísticas ausentes en las capturas.`;
-
 // ============================================================================
 // 2. FUNCIONES DE CÁLCULO Y RECONSTRUCCIÓN HISTÓRICA
 // ============================================================================
@@ -478,6 +457,10 @@ function computeStreakMetrics(formArray = []) {
 // ============================================================================
 
 function LosTiosCrest({ className = 'w-11 h-11' }) {
+  const uid = React.useId().replace(/:/g, '');
+  const topArcId = `topArcLosTios-${uid}`;
+  const bottomArcId = `bottomArcSevilla-${uid}`;
+
   return (
     <svg
       viewBox="0 0 200 200"
@@ -486,53 +469,66 @@ function LosTiosCrest({ className = 'w-11 h-11' }) {
       aria-label="Escudo LOS TIOS FC Sevilla"
     >
       <defs>
-        <path id="topArcLosTios" d="M 32,100 A 68,68 0 1,1 168,100" />
-        <path id="bottomArcSevilla" d="M 30,108 A 70,70 0 0,0 170,108" />
+        <path id={topArcId} d="M 34,102 A 66,66 0 1,1 166,102" />
+        <path id={bottomArcId} d="M 29,108 A 71,71 0 0,0 171,108" />
       </defs>
 
-      <circle cx="100" cy="100" r="97" fill="#18181b" stroke="#dc2626" strokeWidth="5" />
-      <circle cx="100" cy="100" r="90" fill="#121215" stroke="#27272a" strokeWidth="2" />
+      {/* Anillos concéntricos exteriores (carbón - rojo - carbón) */}
+      <circle cx="100" cy="100" r="99" fill="#232326" />
+      <circle cx="100" cy="100" r="93" fill="#cf3524" />
+      <circle cx="100" cy="100" r="88.5" fill="#18181a" />
 
-      <path d="M 11,83 L 48,89 L 48,111 L 11,117 A 89,89 0 0,1 11,83 Z" fill="#dc2626" />
-      <path d="M 189,83 L 152,89 L 152,111 L 189,117 A 89,89 0 0,0 189,83 Z" fill="#dc2626" />
+      {/* Franjas laterales trapezoidales rojas */}
+      <path d="M 11.5,82.5 L 48,88.5 L 48,111.5 L 11.5,117.5 A 88.5,88.5 0 0,1 11.5,82.5 Z" fill="#cf3524" />
+      <path d="M 188.5,82.5 L 152,88.5 L 152,111.5 L 188.5,117.5 A 88.5,88.5 0 0,0 188.5,82.5 Z" fill="#cf3524" />
 
-      <g stroke="#ffffff" strokeWidth="4.2" strokeLinecap="round">
-        <line x1="23" y1="94" x2="33" y2="106" />
-        <line x1="33" y1="94" x2="23" y2="106" />
-        <line x1="167" y1="94" x2="177" y2="106" />
-        <line x1="177" y1="94" x2="167" y2="106" />
+      {/* Aspas blancas laterales */}
+      <g stroke="#ffffff" strokeWidth="4.4" strokeLinecap="butt">
+        <line x1="23.5" y1="94.5" x2="35.5" y2="105.5" />
+        <line x1="35.5" y1="94.5" x2="23.5" y2="105.5" />
+        <line x1="164.5" y1="94.5" x2="176.5" y2="105.5" />
+        <line x1="176.5" y1="94.5" x2="164.5" y2="105.5" />
       </g>
 
-      <circle cx="100" cy="100" r="53" fill="#dc2626" stroke="#09090b" strokeWidth="4" />
+      {/* Medallón central rojo con borde oscuro */}
+      <circle cx="100" cy="100" r="52.5" fill="#cf3524" stroke="#18181a" strokeWidth="3.8" />
 
+      {/* Tipografía superior: LOS TIOS FC */}
       <text
         fill="#ffffff"
-        fontSize="20"
+        fontSize="21.5"
         fontWeight="900"
-        letterSpacing="2.5"
-        fontFamily="system-ui, -apple-system, sans-serif"
+        letterSpacing="1.3"
+        fontFamily="Impact, 'Arial Narrow', 'Bebas Neue', system-ui, sans-serif"
       >
-        <textPath href="#topArcLosTios" startOffset="50%" textAnchor="middle">
+        <textPath href={`#${topArcId}`} startOffset="50%" textAnchor="middle">
           LOS TIOS FC
         </textPath>
       </text>
 
+      {/* Tipografía inferior: SEVILLA */}
       <text
         fill="#ffffff"
-        fontSize="19"
+        fontSize="20.5"
         fontWeight="900"
-        letterSpacing="3.5"
-        fontFamily="system-ui, -apple-system, sans-serif"
+        letterSpacing="2.2"
+        fontFamily="Impact, 'Arial Narrow', 'Bebas Neue', system-ui, sans-serif"
       >
-        <textPath href="#bottomArcSevilla" startOffset="50%" textAnchor="middle">
+        <textPath href={`#${bottomArcId}`} startOffset="50%" textAnchor="middle">
           SEVILLA
         </textPath>
       </text>
 
+      {/* Monograma central TL idéntico al emblema original */}
       <g fill="#ffffff">
-        <path d="M 71,69 L 129,69 L 129,87 L 118,87 L 118,82 L 82,82 L 82,87 L 71,87 Z" />
-        <rect x="91" y="78" width="18" height="46" />
-        <rect x="83" y="121" width="34" height="10" rx="1" />
+        {/* Barra superior de la T con remates slab verticales */}
+        <path d="M 65.5,67 L 134.5,67 L 134.5,88.5 L 122,88.5 L 122,78.5 L 78,78.5 L 78,88.5 L 65.5,88.5 Z" />
+        {/* Fuste vertical izquierdo de la T */}
+        <rect x="87" y="77.5" width="15" height="53.5" />
+        {/* Base inferior de la T */}
+        <rect x="78.5" y="121.5" width="23.5" height="9.5" />
+        {/* Fuste y brazo inferior derecho de la L (con hendidura vertical roja de separación) */}
+        <path d="M 105.8,77.5 L 116.5,77.5 L 116.5,121.5 L 126,121.5 L 126,112 L 134.5,112 L 134.5,131 L 105.8,131 Z" />
       </g>
     </svg>
   );
@@ -766,8 +762,6 @@ export default function App() {
 
   const [selectedPlayerModal, setSelectedPlayerModal] = useState(null);
   const [selectedMatchModal, setSelectedMatchModal] = useState(null);
-  const [showUpdateGuideModal, setShowUpdateGuideModal] = useState(false);
-  const [copiedGuide, setCopiedGuide] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState('Todos');
@@ -1249,18 +1243,6 @@ export default function App() {
     window.open(settingsData.onzegolUrl, '_blank', 'noopener,noreferrer');
   };
 
-  const handleCopyGuide = async () => {
-    try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(UPDATE_GUIDE_MARKDOWN);
-        setCopiedGuide(true);
-        setTimeout(() => setCopiedGuide(false), 2000);
-      }
-    } catch {
-      // No bloquear en entornos restringidos
-    }
-  };
-
   const getRoleBadgeStyle = (role) => {
     switch (role) {
       case 'Portero':
@@ -1346,7 +1328,7 @@ export default function App() {
           })}
         </nav>
 
-        <div className="p-4 border-t border-zinc-800/80 space-y-2.5">
+        <div className="p-4 border-t border-zinc-800/80">
           <div className="bg-zinc-950/90 border border-zinc-800 rounded-xl p-3.5 space-y-1.5">
             <div className="flex items-center justify-between text-xs">
               <span className="text-zinc-400 font-medium">Posición IMD</span>
@@ -1358,15 +1340,6 @@ export default function App() {
               {ourRow?.pj} PJ · {ourRow?.pg} PG · {ourRow?.pe} PE · {ourRow?.pp} PP
             </p>
           </div>
-
-          <button
-            type="button"
-            onClick={() => setShowUpdateGuideModal(true)}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-xs font-semibold text-zinc-300 transition-colors"
-          >
-            <BookOpen className="w-3.5 h-3.5 text-red-400" />
-            <span>Guía Actualización</span>
-          </button>
         </div>
       </aside>
 
@@ -1391,15 +1364,6 @@ export default function App() {
             </div>
 
             <div className="flex items-center gap-2 shrink-0">
-              <button
-                type="button"
-                onClick={() => setShowUpdateGuideModal(true)}
-                className="md:hidden inline-flex items-center gap-1.5 px-2.5 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-xs font-semibold text-zinc-300"
-                aria-label="Guía de actualización"
-              >
-                <BookOpen className="w-4 h-4 text-red-400" />
-              </button>
-
               <a
                 href={settingsData.onzegolUrl}
                 onClick={handleOpenOnzegol}
@@ -3572,61 +3536,6 @@ export default function App() {
                 })}
               </div>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* ====================================================================
-          MODAL GUÍA DE ACTUALIZACIÓN (INSTRUCCIONES_ACTUALIZACION.md)
-      ==================================================================== */}
-      {showUpdateGuideModal && (
-        <div
-          onClick={() => setShowUpdateGuideModal(false)}
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="bg-[#121215] border border-zinc-800 rounded-2xl max-w-2xl w-full p-5 sm:p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto"
-          >
-            <div className="flex items-center justify-between gap-3 border-b border-zinc-800 pb-3">
-              <div className="flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-red-500" />
-                <h3 className="text-base sm:text-lg font-black text-white">
-                  INSTRUCCIONES_ACTUALIZACION.md
-                </h3>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={handleCopyGuide}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-xs font-bold text-zinc-200 cursor-pointer"
-                >
-                  {copiedGuide ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-emerald-400" />
-                      <span>Copiado</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3.5 h-3.5 text-red-400" />
-                      <span>Copiar</span>
-                    </>
-                  )}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowUpdateGuideModal(false)}
-                  className="p-2 rounded-xl bg-zinc-900 text-zinc-400 hover:text-white"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-
-            <pre className="bg-zinc-950 border border-zinc-800 rounded-xl p-4 text-xs text-zinc-300 whitespace-pre-wrap font-mono leading-relaxed">
-              {UPDATE_GUIDE_MARKDOWN}
-            </pre>
           </div>
         </div>
       )}
