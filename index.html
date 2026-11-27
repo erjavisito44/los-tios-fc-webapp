@@ -9,6 +9,15 @@
     <meta name="theme-color" content="#0B0B0C" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LOS TIOS FC - Centro de Control</title>
+    <script src="https://onesignal.com" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "deac346d-f611-4927-ae38-90026e9be380",
+        });
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>
