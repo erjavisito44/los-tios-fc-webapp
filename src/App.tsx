@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   LayoutDashboard,
   Trophy,
@@ -26,6 +26,7 @@ import {
   CheckCircle2,
   Scale,
   Sparkles,
+  Instagram,
 } from 'lucide-react';
 
 // ============================================================================
@@ -37,9 +38,23 @@ const settingsData = {
   division: 'IMD SEVILLA · FÚTBOL SALA (CET)',
   onzegolUrl: 'https://onzegol.com/e/los-tios',
   imdUrl: 'https://imd.sevilla.org/apps/jjddmm_resultados/#',
+  instagramHandle: '@los_tios_fc',
+  instagramUrl: 'https://www.instagram.com/los_tios_fc/',
   ourTeamId: 't1',
   totalMatchdays: 14,
 };
+
+// Publicaciones oficiales de Instagram para la pestaña Social (de más reciente a más antigua)
+const instagramLatestPost =
+  'https://www.instagram.com/reel/DgFNaLzN_dg/?utm_source=ig_embed&utm_campaign=loading';
+
+const instagramGalleryPosts = [
+  'https://www.instagram.com/p/DgCYqOwN2bf/?utm_source=ig_embed&utm_campaign=loading',
+  'https://www.instagram.com/reel/DfzSBN3t9lr/?utm_source=ig_embed&utm_campaign=loading',
+  'https://www.instagram.com/p/DfwLBwcNazL/?utm_source=ig_embed&utm_campaign=loading',
+  'https://www.instagram.com/p/DfcFoLfM2bx/?utm_source=ig_embed&utm_campaign=loading',
+  'https://www.instagram.com/reel/DfcC3Mhs88y/?utm_source=ig_embed&utm_campaign=loading',
+];
 
 // 8 equipos reales del grupo (nombre unificado exclusivamente como LOS TIOS FC)
 const teamsData = [
@@ -453,7 +468,7 @@ function computeStreakMetrics(formArray = []) {
 }
 
 // ============================================================================
-// 3. ESCUDO SVG DE "LOS TIOS FC" Y GRÁFICA SVG DE EVOLUCIÓN
+// 3. ESCUDO DE "LOS TIOS FC", INCRUSTACIÓN INSTAGRAM Y GRÁFICA DE EVOLUCIÓN
 // ============================================================================
 
 function LosTiosCrest({ className = 'w-11 h-11' }) {
@@ -463,6 +478,41 @@ function LosTiosCrest({ className = 'w-11 h-11' }) {
       alt="Escudo LOS TIOS FC"
       className={`${className} rounded-full object-contain shrink-0 select-none`}
     />
+  );
+}
+
+function InstagramEmbedCard({ permalink, featured = false }) {
+  return (
+    <div
+      className={`w-full max-w-full overflow-x-hidden bg-zinc-950/90 border border-zinc-800/90 rounded-2xl p-1 sm:p-4 flex justify-center ${
+        featured ? 'w-full' : ''
+      }`}
+    >
+      <div
+        className={`w-full max-w-full flex justify-center overflow-hidden rounded-xl ${
+          featured ? 'max-w-[540px] mx-auto' : 'max-w-[400px] mx-auto'
+        }`}
+      >
+        <div className="-mt-[54px] -mb-[162px] w-full flex justify-center scale-[0.90] sm:scale-100 origin-top">
+          <blockquote
+            className="instagram-media"
+            data-instgrm-permalink={permalink}
+            data-instgrm-version="14"
+            style={{
+              background: '#09090b',
+              border: '0',
+              borderRadius: '12px',
+              boxShadow: 'none',
+              margin: '0 auto',
+              maxWidth: '100%',
+              minWidth: '0',
+              padding: '0',
+              width: '100%',
+            }}
+          />
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -677,7 +727,7 @@ function MatchdayEvolutionChart({
 // ============================================================================
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'dossier' | 'league' | 'squad'
+  const [activeTab, setActiveTab] = useState('dashboard'); // 'dashboard' | 'dossier' | 'league' | 'squad' | 'social'
   const [dossierSection, setDossierSection] = useState('overview'); // 'overview' | 'common' | 'compare' | 'profile' | 'simulator' | 'reports'
   const [leagueSection, setLeagueSection] = useState('fixtures'); // 'fixtures' | 'global'
 
@@ -698,6 +748,31 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState('Todos');
   const [sortConfig, setSortConfig] = useState({ key: 'ga', direction: 'desc' });
+
+  // Cargar y procesar embeds de Instagram cada vez que el usuario entra en 'Social'
+  useEffect(() => {
+    if (activeTab !== 'social') return;
+
+    const processInstagramEmbeds = () => {
+      if (window.instgrm && window.instgrm.Embeds && typeof window.instgrm.Embeds.process === 'function') {
+        window.instgrm.Embeds.process();
+      }
+    };
+
+    const existingScript = document.querySelector('script[src*="instagram.com/embed.js"]');
+    if (!existingScript) {
+      const script = document.createElement('script');
+      script.src = 'https://www.instagram.com/embed.js';
+      script.async = true;
+      script.onload = processInstagramEmbeds;
+      document.body.appendChild(script);
+    } else {
+      processInstagramEmbeds();
+    }
+
+    const timer = window.setTimeout(processInstagramEmbeds, 200);
+    return () => window.clearTimeout(timer);
+  }, [activeTab]);
 
   const playedMatchdays = useMemo(() => {
     const set = new Set(matchesData.filter((m) => m.played).map((m) => m.matchday));
@@ -1213,6 +1288,7 @@ export default function App() {
     { id: 'dossier', label: 'Dossier Rival', icon: Crosshair },
     { id: 'league', label: 'Liga IMD', icon: Trophy },
     { id: 'squad', label: 'Plantilla', icon: Users },
+    { id: 'social', label: 'Social', icon: Instagram },
   ];
 
   const visibleMatches = useMemo(() => {
@@ -1282,8 +1358,12 @@ export default function App() {
         <header className="sticky top-0 z-20 bg-[#09090b]/90 backdrop-blur-xl border-b border-zinc-800/80 px-4 sm:px-6 py-3">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="md:hidden">
-                <LosTiosCrest className="w-10 h-10" />
+              <div className="md:hidden shrink-0">
+                <img
+                  src="/escudo-los-tios.png"
+                  alt="Escudo LOS TIOS FC"
+                  className="w-10 h-10 rounded-full object-contain shrink-0 select-none"
+                />
               </div>
               <div className="min-w-0">
                 <h2 className="text-base sm:text-lg font-black tracking-wide text-white truncate">
@@ -3113,6 +3193,89 @@ export default function App() {
               </div>
             </div>
           )}
+
+          {/* ==============================================================
+              5. SOCIAL (INSTAGRAM OFICIAL DEL EQUIPO)
+          ============================================================== */}
+          {activeTab === 'social' && (
+            <div className="space-y-6">
+              {/* 1. Cabecera del perfil oficial */}
+              <div className="bg-[#121215] border border-zinc-800/90 rounded-2xl p-5 sm:p-6 relative overflow-hidden">
+                <div className="absolute -top-16 -right-16 w-60 h-60 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative">
+                  <div className="flex items-center gap-4 min-w-0">
+                    <LosTiosCrest className="w-16 h-16 sm:w-20 sm:h-20 drop-shadow-[0_0_14px_rgba(220,38,38,0.35)]" />
+                    <div className="min-w-0">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-red-600/15 text-red-400 border border-red-500/30 mb-1.5">
+                        <Instagram className="w-3.5 h-3.5" />
+                        Cuenta Oficial del Club
+                      </span>
+                      <h3 className="text-xl sm:text-2xl font-black text-white truncate">
+                        {settingsData.displayName}
+                      </h3>
+                      <p className="text-sm font-bold text-red-400 mt-0.5">
+                        {settingsData.instagramHandle}
+                      </p>
+                      <p className="text-xs text-zinc-400 mt-1">
+                        Crónicas, goles, momentos de vestuario y actualidad del equipo
+                      </p>
+                    </div>
+                  </div>
+
+                  <a
+                    href={settingsData.instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-red-600 hover:bg-red-500 active:scale-95 text-white text-xs sm:text-sm font-black tracking-wide shadow-lg shadow-red-600/30 transition-all shrink-0"
+                  >
+                    <Instagram className="w-4 h-4" />
+                    <span>Seguir en Instagram</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+
+              {/* 2. Sección superior destacada a ancho completo: Última Publicación */}
+              <div className="bg-[#121215] border border-zinc-800/90 rounded-2xl p-5 sm:p-6 space-y-4">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
+                    <h4 className="text-base sm:text-lg font-black text-white">
+                      Última Publicación
+                    </h4>
+                  </div>
+                  <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-red-600/15 text-red-400 border border-red-500/30">
+                    Reel Destacado
+                  </span>
+                </div>
+
+                <InstagramEmbedCard permalink={instagramLatestPost} featured />
+              </div>
+
+              {/* 3. Cuadrícula inferior: Galería del Equipo */}
+              <div className="bg-[#121215] border border-zinc-800/90 rounded-2xl p-5 sm:p-6 space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div>
+                    <h4 className="text-base sm:text-lg font-black text-white">
+                      Galería del Equipo
+                    </h4>
+                    <p className="text-xs text-zinc-400">
+                      Publicaciones y momentos destacados de {settingsData.instagramHandle}
+                    </p>
+                  </div>
+                  <span className="px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-xs font-bold text-zinc-300">
+                    {instagramGalleryPosts.length} publicaciones
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {instagramGalleryPosts.map((postUrl, index) => (
+                    <InstagramEmbedCard key={`ig-gallery-${index}`} permalink={postUrl} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </main>
       </div>
 
@@ -3120,7 +3283,7 @@ export default function App() {
           BARRA INFERIOR MÓVIL
       ==================================================================== */}
       <nav className="md:hidden fixed bottom-0 inset-x-0 bg-[#121215]/95 backdrop-blur-xl border-t border-zinc-800/90 z-30 px-1.5 py-1.5">
-        <div className="grid grid-cols-4 gap-1">
+        <div className="grid grid-cols-5 gap-1">
           {navItems.map((item) => {
             const Icon = item.icon;
             const active = activeTab === item.id;
