@@ -1690,7 +1690,7 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1.5 overflow-x-auto pt-4 mt-4 border-t border-zinc-800/80">
+                <div className="grid grid-cols-2 gap-2 pt-4 mt-4 border-t border-zinc-800/80">
                   {[
                     { id: 'overview', label: 'Rival y Evolución', icon: TrendingUp },
                     { id: 'common', label: 'Rivales Comunes', icon: Scale },
@@ -1706,13 +1706,13 @@ export default function App() {
                         key={tab.id}
                         type="button"
                         onClick={() => setDossierSection(tab.id)}
-                        className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold shrink-0 transition-all cursor-pointer ${
+                        className={`w-full min-h-[44px] inline-flex items-center justify-center gap-1.5 px-2.5 py-2 rounded-xl text-xs font-bold text-center leading-tight transition-all cursor-pointer ${
                           active
                             ? 'bg-red-600 text-white shadow-md shadow-red-600/25'
                             : 'bg-zinc-900 text-zinc-400 hover:text-white border border-zinc-800'
                         }`}
                       >
-                        <TabIcon className="w-3.5 h-3.5" />
+                        <TabIcon className="w-3.5 h-3.5 shrink-0" />
                         <span>{tab.label}</span>
                       </button>
                     );
