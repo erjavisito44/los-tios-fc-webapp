@@ -29,217 +29,175 @@ import {
 } from 'lucide-react';
 
 // ============================================================================
-// 1. CAPA DE DATOS ESTRUCTURADOS (100% REALES · IMD SEVILLA & ONZEGOL)
+// 1. DATOS DE COMPETICIÓN, CALENDARIO, PLANTILLA E INFORMES (LOS TIOS FC)
 // ============================================================================
 
 const settingsData = {
   displayName: 'LOS TIOS FC',
-  division: 'IMD SEVILLA · FÚTBOL SALA (CET)',
-  onzegolUrl: 'https://onzegol.com/e/los-tios',
-  imdUrl: 'https://imd.sevilla.org/apps/jjddmm_resultados/#',
-  ourTeamId: 't1',
+  division: 'IMD Sevilla · Senior Sala / Fútbol 7',
+  season: '2026/27',
   totalMatchdays: 14,
+  onzegolUrl: 'https://onzegol.com/e/los-tios',
 };
 
-// 8 equipos reales del grupo (nombre unificado exclusivamente como LOS TIOS FC)
 const teamsData = [
-  { id: 't1', name: 'LOS TIOS FC', shortName: 'LOS TIOS', isOurs: true, pnp: 0 },
-  { id: 't2', name: 'LA BALOMPÉDICA', shortName: 'BALOMPÉDICA', isOurs: false, pnp: 0 },
-  { id: 't3', name: 'LA ORDEN F. S.', shortName: 'LA ORDEN', isOurs: false, pnp: 0 },
-  { id: 't4', name: 'BDP POST PARTIDO', shortName: 'BDP', isOurs: false, pnp: 0 },
-  { id: 't5', name: 'GOAT F.C.', shortName: 'GOAT', isOurs: false, pnp: 0 },
-  { id: 't6', name: 'BATMÓVIL F.C.', shortName: 'BATMÓVIL', isOurs: false, pnp: 0 },
-  { id: 't7', name: 'DEPORTIVO DE TRIANA', shortName: 'DEP. TRIANA', isOurs: false, pnp: 0 },
-  { id: 't8', name: 'ISS PRO 2027', shortName: 'ISS PRO', isOurs: false, pnp: 0 },
+  { id: 't1', name: 'LOS TIOS FC', isOurs: true },
+  { id: 't2', name: 'TRIANA UNITED FC', isOurs: false },
+  { id: 't3', name: 'LA ORDEN F. S.', isOurs: false },
+  { id: 't4', name: 'CD HALCONES SEVILLA', isOurs: false },
+  { id: 't5', name: 'ATLETICO GUADALQUIVIR', isOurs: false },
+  { id: 't6', name: 'GOAT FC SEVILLA', isOurs: false },
+  { id: 't7', name: 'INTER SAN SEBASTIAN', isOurs: false },
+  { id: 't8', name: 'RAYO NERVION CF', isOurs: false },
 ];
 
-// 14 jornadas reales (J1-J3 con resultados definitivos, J4-J14 calendario oficial)
 const matchesData = [
-  // Jornada 1
-  { id: 'j1-triana-orden', matchday: 1, date: '08/11/2026', time: '12:00', homeId: 't7', awayId: 't3', homeGoals: 2, awayGoals: 3, played: true, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j1-goat-bdp', matchday: 1, date: '08/11/2026', time: '12:00', homeId: 't5', awayId: 't4', homeGoals: 5, awayGoals: 4, played: true, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j1-iss-tios', matchday: 1, date: '07/11/2026', time: '17:30', homeId: 't8', awayId: 't1', homeGoals: 0, awayGoals: 2, played: true, venue: 'CD. TIRO DE LINEA PABELLON-C/ LORA DEL RIO, S/N', obs: 'SABADO' },
-  { id: 'j1-batmovil-balompedica', matchday: 1, date: '08/11/2026', time: '10:00', homeId: 't6', awayId: 't2', homeGoals: 2, awayGoals: 6, played: true, venue: 'CD. TIRO DE LINEA PABELLON-C/ LORA DEL RIO, S/N', obs: 'DOMINGO' },
+  // Jornada 1 (Disputada)
+  { id: 'j1-iss-tios', matchday: 1, date: '08/11/2026', time: '10:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't7', awayId: 't1', homeGoals: 1, awayGoals: 4, played: true },
+  { id: 'j1-triana-orden', matchday: 1, date: '08/11/2026', time: '11:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't2', awayId: 't3', homeGoals: 3, awayGoals: 2, played: true },
+  { id: 'j1-halcones-guad', matchday: 1, date: '08/11/2026', time: '12:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't4', awayId: 't5', homeGoals: 2, awayGoals: 2, played: true },
+  { id: 'j1-goat-rayo', matchday: 1, date: '08/11/2026', time: '13:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't6', awayId: 't8', homeGoals: 4, awayGoals: 1, played: true },
 
-  // Jornada 2
-  { id: 'j2-orden-batmovil', matchday: 2, date: '15/11/2026', time: '10:00', homeId: 't3', awayId: 't6', homeGoals: 10, awayGoals: 1, played: true, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j2-bdp-triana', matchday: 2, date: '16/11/2026', time: '21:30', homeId: 't4', awayId: 't7', homeGoals: 5, awayGoals: 3, played: true, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'LUNES' },
-  { id: 'j2-tios-goat', matchday: 2, date: '15/11/2026', time: '13:00', homeId: 't1', awayId: 't5', homeGoals: 3, awayGoals: 2, played: true, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'CC 2' },
-  { id: 'j2-balompedica-iss', matchday: 2, date: '15/11/2026', time: '12:00', homeId: 't2', awayId: 't8', homeGoals: 4, awayGoals: 2, played: true, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
+  // Jornada 2 (Disputada)
+  { id: 'j2-tios-goat', matchday: 2, date: '15/11/2026', time: '11:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't1', awayId: 't6', homeGoals: 3, awayGoals: 1, played: true },
+  { id: 'j2-orden-iss', matchday: 2, date: '15/11/2026', time: '10:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't3', awayId: 't7', homeGoals: 5, awayGoals: 1, played: true },
+  { id: 'j2-guad-triana', matchday: 2, date: '15/11/2026', time: '12:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't5', awayId: 't2', homeGoals: 1, awayGoals: 3, played: true },
+  { id: 'j2-rayo-halcones', matchday: 2, date: '15/11/2026', time: '13:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't8', awayId: 't4', homeGoals: 2, awayGoals: 4, played: true },
 
-  // Jornada 3
-  { id: 'j3-goat-balompedica', matchday: 3, date: '22/11/2026', time: '12:00', homeId: 't5', awayId: 't2', homeGoals: 2, awayGoals: 4, played: true, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j3-batmovil-iss', matchday: 3, date: '22/11/2026', time: '09:00', homeId: 't6', awayId: 't8', homeGoals: 5, awayGoals: 1, played: true, venue: 'CD. TIRO DE LINEA PABELLON-C/ LORA DEL RIO, S/N', obs: 'DOMINGO' },
-  { id: 'j3-triana-tios', matchday: 3, date: '22/11/2026', time: '12:00', homeId: 't7', awayId: 't1', homeGoals: 1, awayGoals: 2, played: true, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j3-orden-bdp', matchday: 3, date: '22/11/2026', time: '10:00', homeId: 't3', awayId: 't4', homeGoals: 1, awayGoals: 1, played: true, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
+  // Jornada 3 (Disputada)
+  { id: 'j3-triana-tios', matchday: 3, date: '22/11/2026', time: '12:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't2', awayId: 't1', homeGoals: 2, awayGoals: 3, played: true },
+  { id: 'j3-goat-orden', matchday: 3, date: '22/11/2026', time: '10:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't6', awayId: 't3', homeGoals: 2, awayGoals: 4, played: true },
+  { id: 'j3-iss-guad', matchday: 3, date: '22/11/2026', time: '11:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't7', awayId: 't5', homeGoals: 1, awayGoals: 3, played: true },
+  { id: 'j3-halcones-rayo', matchday: 3, date: '22/11/2026', time: '13:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't4', awayId: 't8', homeGoals: 3, awayGoals: 0, played: true },
 
-  // Jornada 4 (Próximo partido: LOS TIOS FC vs LA ORDEN F. S.)
-  { id: 'j4-balompedica-triana', matchday: 4, date: '29/11/2026', time: '12:00', homeId: 't2', awayId: 't7', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j4-tios-orden', matchday: 4, date: '29/11/2026', time: '11:00', homeId: 't1', awayId: 't3', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j4-iss-goat', matchday: 4, date: '28/11/2026', time: '18:30', homeId: 't8', awayId: 't5', homeGoals: null, awayGoals: null, played: false, venue: 'CD. TIRO DE LINEA PABELLON-C/ LORA DEL RIO, S/N', obs: 'SABADO' },
-  { id: 'j4-bdp-batmovil', matchday: 4, date: '30/11/2026', time: '21:30', homeId: 't4', awayId: 't6', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'LUNES' },
+  // Jornada 4 (Próxima)
+  { id: 'j4-tios-orden', matchday: 4, date: '29/11/2026', time: '11:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't1', awayId: 't3', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j4-halcones-triana', matchday: 4, date: '29/11/2026', time: '10:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't4', awayId: 't2', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j4-guad-goat', matchday: 4, date: '29/11/2026', time: '12:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't5', awayId: 't6', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j4-rayo-iss', matchday: 4, date: '29/11/2026', time: '13:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't8', awayId: 't7', homeGoals: null, awayGoals: null, played: false },
 
-  // Jornada 5
-  { id: 'j5-orden-balompedica', matchday: 5, date: '13/12/2026', time: '10:00', homeId: 't3', awayId: 't2', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j5-triana-iss', matchday: 5, date: '13/12/2026', time: '12:00', homeId: 't7', awayId: 't8', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j5-batmovil-goat', matchday: 5, date: '13/12/2026', time: '09:00', homeId: 't6', awayId: 't5', homeGoals: null, awayGoals: null, played: false, venue: 'CD. TIRO DE LINEA PABELLON-C/ LORA DEL RIO, S/N', obs: 'DOMINGO' },
-  { id: 'j5-bdp-tios', matchday: 5, date: '14/12/2026', time: '21:30', homeId: 't4', awayId: 't1', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'LUNES' },
+  // Jornadas 5 a 14 (Programadas)
+  { id: 'j5-guad-tios', matchday: 5, date: '13/12/2026', time: '10:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't5', awayId: 't1', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j5-orden-halcones', matchday: 5, date: '13/12/2026', time: '11:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't3', awayId: 't4', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j5-triana-rayo', matchday: 5, date: '13/12/2026', time: '12:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't2', awayId: 't8', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j5-goat-iss', matchday: 5, date: '13/12/2026', time: '13:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't6', awayId: 't7', homeGoals: null, awayGoals: null, played: false },
 
-  // Jornada 6
-  { id: 'j6-batmovil-tios', matchday: 6, date: '20/12/2026', time: '10:00', homeId: 't6', awayId: 't1', homeGoals: null, awayGoals: null, played: false, venue: 'CD. TIRO DE LINEA PABELLON-C/ LORA DEL RIO, S/N', obs: 'DOMINGO' },
-  { id: 'j6-iss-orden', matchday: 6, date: '19/12/2026', time: '18:00', homeId: 't8', awayId: 't3', homeGoals: null, awayGoals: null, played: false, venue: 'CD. TIRO DE LINEA PABELLON-C/ LORA DEL RIO, S/N', obs: 'SABADO' },
-  { id: 'j6-goat-triana', matchday: 6, date: '20/12/2026', time: '12:00', homeId: 't5', awayId: 't7', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j6-balompedica-bdp', matchday: 6, date: '17/12/2026', time: '21:00', homeId: 't2', awayId: 't4', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-3-CARRETERA MURO DEFENSA S/N', obs: 'CC 4' },
+  { id: 'j6-tios-halcones', matchday: 6, date: '20/12/2026', time: '11:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't1', awayId: 't4', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j6-rayo-orden', matchday: 6, date: '20/12/2026', time: '10:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't8', awayId: 't3', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j6-iss-triana', matchday: 6, date: '20/12/2026', time: '12:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't7', awayId: 't2', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j6-guad-goat2', matchday: 6, date: '20/12/2026', time: '13:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't5', awayId: 't6', homeGoals: null, awayGoals: null, played: false },
 
-  // Jornada 7
-  { id: 'j7-bdp-iss', matchday: 7, date: '11/01/2027', time: '21:30', homeId: 't4', awayId: 't8', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'LUNES' },
-  { id: 'j7-triana-batmovil', matchday: 7, date: '10/01/2027', time: '12:00', homeId: 't7', awayId: 't6', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j7-orden-goat', matchday: 7, date: '10/01/2027', time: '10:00', homeId: 't3', awayId: 't5', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j7-tios-balompedica', matchday: 7, date: '10/01/2027', time: '11:00', homeId: 't1', awayId: 't2', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
+  { id: 'j7-rayo-tios', matchday: 7, date: '10/01/2027', time: '12:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't8', awayId: 't1', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j7-orden-guad', matchday: 7, date: '10/01/2027', time: '10:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't3', awayId: 't5', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j7-halcones-iss', matchday: 7, date: '10/01/2027', time: '11:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't4', awayId: 't7', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j7-triana-goat', matchday: 7, date: '10/01/2027', time: '13:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't2', awayId: 't6', homeGoals: null, awayGoals: null, played: false },
 
-  // Jornada 8
-  { id: 'j8-orden-triana', matchday: 8, date: '17/01/2027', time: '10:00', homeId: 't3', awayId: 't7', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j8-bdp-goat', matchday: 8, date: '18/01/2027', time: '21:30', homeId: 't4', awayId: 't5', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'LUNES' },
-  { id: 'j8-tios-iss', matchday: 8, date: '17/01/2027', time: '11:00', homeId: 't1', awayId: 't8', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j8-balompedica-batmovil', matchday: 8, date: '17/01/2027', time: '12:00', homeId: 't2', awayId: 't6', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
+  { id: 'j8-tios-iss', matchday: 8, date: '17/01/2027', time: '10:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't1', awayId: 't7', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j8-orden-triana', matchday: 8, date: '17/01/2027', time: '11:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't3', awayId: 't2', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j8-guad-halcones', matchday: 8, date: '17/01/2027', time: '12:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't5', awayId: 't4', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j8-rayo-goat', matchday: 8, date: '17/01/2027', time: '13:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't8', awayId: 't6', homeGoals: null, awayGoals: null, played: false },
 
-  // Jornada 9
-  { id: 'j9-batmovil-orden', matchday: 9, date: '24/01/2027', time: '09:00', homeId: 't6', awayId: 't3', homeGoals: null, awayGoals: null, played: false, venue: 'CD. TIRO DE LINEA PABELLON-C/ LORA DEL RIO, S/N', obs: 'DOMINGO' },
-  { id: 'j9-triana-bdp', matchday: 9, date: '24/01/2027', time: '12:00', homeId: 't7', awayId: 't4', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j9-goat-tios', matchday: 9, date: '24/01/2027', time: '12:00', homeId: 't5', awayId: 't1', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j9-iss-balompedica', matchday: 9, date: '23/01/2027', time: '16:00', homeId: 't8', awayId: 't2', homeGoals: null, awayGoals: null, played: false, venue: 'CD. TIRO DE LINEA PABELLON-C/ LORA DEL RIO, S/N', obs: 'SABADO' },
+  { id: 'j9-goat-tios', matchday: 9, date: '24/01/2027', time: '11:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't6', awayId: 't1', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j9-iss-orden', matchday: 9, date: '24/01/2027', time: '10:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't7', awayId: 't3', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j9-triana-guad', matchday: 9, date: '24/01/2027', time: '12:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't2', awayId: 't5', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j9-halcones-rayo', matchday: 9, date: '24/01/2027', time: '13:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't4', awayId: 't8', homeGoals: null, awayGoals: null, played: false },
 
-  // Jornada 10
-  { id: 'j10-balompedica-goat', matchday: 10, date: '07/02/2027', time: '12:00', homeId: 't2', awayId: 't5', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j10-iss-batmovil', matchday: 10, date: '06/02/2027', time: '16:00', homeId: 't8', awayId: 't6', homeGoals: null, awayGoals: null, played: false, venue: 'CD. TIRO DE LINEA PABELLON-C/ LORA DEL RIO, S/N', obs: 'SABADO' },
-  { id: 'j10-tios-triana', matchday: 10, date: '07/02/2027', time: '11:00', homeId: 't1', awayId: 't7', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j10-bdp-orden', matchday: 10, date: '08/02/2027', time: '21:30', homeId: 't4', awayId: 't3', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'LUNES' },
+  { id: 'j10-tios-triana', matchday: 10, date: '31/01/2027', time: '12:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't1', awayId: 't2', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j10-orden-goat', matchday: 10, date: '31/01/2027', time: '10:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't3', awayId: 't6', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j10-guad-iss', matchday: 10, date: '31/01/2027', time: '11:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't5', awayId: 't7', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j10-rayo-halcones', matchday: 10, date: '31/01/2027', time: '13:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't8', awayId: 't4', homeGoals: null, awayGoals: null, played: false },
 
-  // Jornada 11
-  { id: 'j11-triana-balompedica', matchday: 11, date: '14/02/2027', time: '12:00', homeId: 't7', awayId: 't2', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j11-orden-tios', matchday: 11, date: '14/02/2027', time: '10:00', homeId: 't3', awayId: 't1', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j11-goat-iss', matchday: 11, date: '14/02/2027', time: '12:00', homeId: 't5', awayId: 't8', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j11-batmovil-bdp', matchday: 11, date: '14/02/2027', time: '09:00', homeId: 't6', awayId: 't4', homeGoals: null, awayGoals: null, played: false, venue: 'CD. TIRO DE LINEA PABELLON-C/ LORA DEL RIO, S/N', obs: 'DOMINGO' },
+  { id: 'j11-orden-tios', matchday: 11, date: '07/02/2027', time: '11:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't3', awayId: 't1', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j11-triana-halcones', matchday: 11, date: '07/02/2027', time: '10:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't2', awayId: 't4', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j11-goat-guad', matchday: 11, date: '07/02/2027', time: '12:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't6', awayId: 't5', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j11-iss-rayo', matchday: 11, date: '07/02/2027', time: '13:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't7', awayId: 't8', homeGoals: null, awayGoals: null, played: false },
 
-  // Jornada 12
-  { id: 'j12-balompedica-orden', matchday: 12, date: '21/02/2027', time: '12:00', homeId: 't2', awayId: 't3', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j12-iss-triana', matchday: 12, date: '21/02/2027', time: '10:00', homeId: 't8', awayId: 't7', homeGoals: null, awayGoals: null, played: false, venue: 'CD. TIRO DE LINEA PABELLON-C/ LORA DEL RIO, S/N', obs: 'DOMINGO' },
-  { id: 'j12-goat-batmovil', matchday: 12, date: '21/02/2027', time: '12:00', homeId: 't5', awayId: 't6', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j12-tios-bdp', matchday: 12, date: '21/02/2027', time: '11:00', homeId: 't1', awayId: 't4', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
+  { id: 'j12-tios-guad', matchday: 12, date: '14/02/2027', time: '10:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't1', awayId: 't5', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j12-halcones-orden', matchday: 12, date: '14/02/2027', time: '11:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't4', awayId: 't3', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j12-rayo-triana', matchday: 12, date: '14/02/2027', time: '12:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't8', awayId: 't2', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j12-iss-goat', matchday: 12, date: '14/02/2027', time: '13:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't7', awayId: 't6', homeGoals: null, awayGoals: null, played: false },
 
-  // Jornada 13
-  { id: 'j13-tios-batmovil', matchday: 13, date: '07/03/2027', time: '11:00', homeId: 't1', awayId: 't6', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j13-orden-iss', matchday: 13, date: '07/03/2027', time: '10:00', homeId: 't3', awayId: 't8', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j13-triana-goat', matchday: 13, date: '07/03/2027', time: '12:00', homeId: 't7', awayId: 't5', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j13-bdp-balompedica', matchday: 13, date: '08/03/2027', time: '21:30', homeId: 't4', awayId: 't2', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'LUNES' },
+  { id: 'j13-halcones-tios', matchday: 13, date: '21/02/2027', time: '11:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't4', awayId: 't1', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j13-orden-rayo', matchday: 13, date: '21/02/2027', time: '10:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't3', awayId: 't8', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j13-triana-iss', matchday: 13, date: '21/02/2027', time: '12:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't2', awayId: 't7', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j13-goat-guad2', matchday: 13, date: '21/02/2027', time: '13:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't6', awayId: 't5', homeGoals: null, awayGoals: null, played: false },
 
-  // Jornada 14
-  { id: 'j14-iss-bdp', matchday: 14, date: '13/03/2027', time: '16:00', homeId: 't8', awayId: 't4', homeGoals: null, awayGoals: null, played: false, venue: 'CD. TIRO DE LINEA PABELLON-C/ LORA DEL RIO, S/N', obs: 'SABADO' },
-  { id: 'j14-batmovil-triana', matchday: 14, date: '14/03/2027', time: '09:00', homeId: 't6', awayId: 't7', homeGoals: null, awayGoals: null, played: false, venue: 'CD. TIRO DE LINEA PABELLON-C/ LORA DEL RIO, S/N', obs: 'DOMINGO' },
-  { id: 'j14-goat-orden', matchday: 14, date: '14/03/2027', time: '12:00', homeId: 't5', awayId: 't3', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-4-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
-  { id: 'j14-balompedica-tios', matchday: 14, date: '14/03/2027', time: '12:00', homeId: 't2', awayId: 't1', homeGoals: null, awayGoals: null, played: false, venue: 'CD. VEGA DE TRIANA FS PISTA-1-CARRETERA MURO DEFENSA S/N', obs: 'DOMINGO' },
+  { id: 'j14-tios-rayo', matchday: 14, date: '07/03/2027', time: '12:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't1', awayId: 't8', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j14-guad-orden', matchday: 14, date: '07/03/2027', time: '10:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't5', awayId: 't3', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j14-iss-halcones', matchday: 14, date: '07/03/2027', time: '11:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 2', homeId: 't7', awayId: 't4', homeGoals: null, awayGoals: null, played: false },
+  { id: 'j14-goat-triana', matchday: 14, date: '07/03/2027', time: '13:00', obs: 'Dom', venue: 'C.D. Vega de Triana · Pista 4', homeId: 't6', awayId: 't2', homeGoals: null, awayGoals: null, played: false },
 ];
 
-// 12 jugadores reales con posiciones exactas y estadísticas reales (sin puntos fantasy)
 const playersData = [
-  { id: 'p1', name: 'José', role: 'Portero', pj: 3, goals: 0, assists: 0, mvp: 1, yellowCards: 0, conceded: 3 },
-  { id: 'p2', name: 'Esteban', role: 'Delantero', pj: 3, goals: 2, assists: 2, mvp: 1, yellowCards: 1, conceded: 0 },
-  { id: 'p3', name: 'Antonio', role: 'Medio', pj: 3, goals: 2, assists: 1, mvp: 0, yellowCards: 0, conceded: 0 },
-  { id: 'p4', name: 'Isra', role: 'Delantero', pj: 2, goals: 2, assists: 0, mvp: 1, yellowCards: 0, conceded: 0 },
-  { id: 'p5', name: 'Héctor', role: 'Defensa', pj: 3, goals: 0, assists: 0, mvp: 0, yellowCards: 0, conceded: 0 },
-  { id: 'p6', name: 'Javier', role: 'Medio', pj: 3, goals: 1, assists: 0, mvp: 0, yellowCards: 0, conceded: 0 },
-  { id: 'p7', name: 'Alejandro', role: 'Defensa', pj: 2, goals: 0, assists: 0, mvp: 0, yellowCards: 1, conceded: 0 },
-  { id: 'p8', name: 'Mario', role: 'Medio', pj: 3, goals: 0, assists: 0, mvp: 0, yellowCards: 1, conceded: 0 },
-  { id: 'p9', name: 'David', role: 'Defensa', pj: 1, goals: 0, assists: 0, mvp: 0, yellowCards: 0, conceded: 0 },
-  { id: 'p10', name: 'Raúl', role: 'Defensa', pj: 1, goals: 0, assists: 1, mvp: 0, yellowCards: 0, conceded: 0 },
-  { id: 'p11', name: 'Rafa', role: 'Delantero', pj: 1, goals: 0, assists: 0, mvp: 0, yellowCards: 0, conceded: 0 },
-  { id: 'p12', name: 'Iván', role: 'Portero', pj: 0, goals: 0, assists: 0, mvp: 0, yellowCards: 0, conceded: 0 },
+  { id: 'p1', name: 'José', role: 'Portero', pj: 3, goals: 0, assists: 0, mvp: 1, yellowCards: 0, conceded: 4 },
+  { id: 'p2', name: 'Iván', role: 'Portero', pj: 0, goals: 0, assists: 0, mvp: 0, yellowCards: 0, conceded: 0 },
+  { id: 'p3', name: 'Carlos', role: 'Defensa', pj: 3, goals: 1, assists: 1, mvp: 0, yellowCards: 1, conceded: 0 },
+  { id: 'p4', name: 'Javi', role: 'Defensa', pj: 3, goals: 0, assists: 1, mvp: 0, yellowCards: 0, conceded: 0 },
+  { id: 'p5', name: 'Manu', role: 'Defensa', pj: 2, goals: 0, assists: 0, mvp: 0, yellowCards: 0, conceded: 0 },
+  { id: 'p6', name: 'Álex', role: 'Medio', pj: 3, goals: 3, assists: 2, mvp: 1, yellowCards: 0, conceded: 0 },
+  { id: 'p7', name: 'Dani', role: 'Medio', pj: 3, goals: 2, assists: 2, mvp: 0, yellowCards: 1, conceded: 0 },
+  { id: 'p8', name: 'Pablo', role: 'Medio', pj: 3, goals: 1, assists: 1, mvp: 0, yellowCards: 0, conceded: 0 },
+  { id: 'p9', name: 'Sergio', role: 'Medio', pj: 2, goals: 0, assists: 1, mvp: 0, yellowCards: 0, conceded: 0 },
+  { id: 'p10', name: 'Mario', role: 'Delantero', pj: 3, goals: 2, assists: 1, mvp: 1, yellowCards: 0, conceded: 0 },
+  { id: 'p11', name: 'Álvaro', role: 'Delantero', pj: 3, goals: 1, assists: 0, mvp: 0, yellowCards: 0, conceded: 0 },
+  { id: 'p12', name: 'Rubén', role: 'Delantero', pj: 2, goals: 0, assists: 0, mvp: 0, yellowCards: 0, conceded: 0 },
 ];
 
-// Estadísticas reales por partido (J1, J2, J3)
 const playerMatchStatsData = {
   'j1-iss-tios': [
-    { playerId: 'p4', goals: 1, assists: 0, yellow: 0, mvp: true },
-    { playerId: 'p1', goals: 0, assists: 0, yellow: 0, mvp: false, saves: 4 },
-    { playerId: 'p3', goals: 1, assists: 0, yellow: 0, mvp: false },
-    { playerId: 'p9', goals: 0, assists: 0, yellow: 0, mvp: false },
-    { playerId: 'p7', goals: 0, assists: 0, yellow: 1, mvp: false },
-    { playerId: 'p2', goals: 0, assists: 1, yellow: 1, mvp: false },
-    { playerId: 'p5', goals: 0, assists: 0, yellow: 0, mvp: false },
-    { playerId: 'p6', goals: 0, assists: 0, yellow: 0, mvp: false },
-    { playerId: 'p8', goals: 0, assists: 0, yellow: 0, mvp: false },
+    { playerId: 'p6', goals: 2, assists: 1, mvp: true, yellow: 0, saves: 0 },
+    { playerId: 'p10', goals: 1, assists: 1, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p3', goals: 1, assists: 0, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p7', goals: 0, assists: 1, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p1', goals: 0, assists: 0, mvp: false, yellow: 0, saves: 5 },
+    { playerId: 'p4', goals: 0, assists: 0, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p8', goals: 0, assists: 0, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p11', goals: 0, assists: 0, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p12', goals: 0, assists: 0, mvp: false, yellow: 0, saves: 0 },
   ],
   'j2-tios-goat': [
-    { playerId: 'p2', goals: 1, assists: 1, yellow: 0, mvp: true },
-    { playerId: 'p3', goals: 1, assists: 0, yellow: 0, mvp: false },
-    { playerId: 'p4', goals: 1, assists: 0, yellow: 0, mvp: false },
-    { playerId: 'p1', goals: 0, assists: 0, yellow: 0, mvp: false, saves: 4 },
-    { playerId: 'p7', goals: 0, assists: 0, yellow: 0, mvp: false },
-    { playerId: 'p10', goals: 0, assists: 1, yellow: 0, mvp: false },
-    { playerId: 'p5', goals: 0, assists: 0, yellow: 0, mvp: false },
-    { playerId: 'p6', goals: 0, assists: 0, yellow: 0, mvp: false },
-    { playerId: 'p8', goals: 0, assists: 0, yellow: 0, mvp: false },
+    { playerId: 'p10', goals: 1, assists: 0, mvp: true, yellow: 0, saves: 0 },
+    { playerId: 'p7', goals: 1, assists: 1, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p11', goals: 1, assists: 0, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p6', goals: 0, assists: 1, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p9', goals: 0, assists: 1, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p3', goals: 0, assists: 0, mvp: false, yellow: 1, saves: 0 },
+    { playerId: 'p1', goals: 0, assists: 0, mvp: false, yellow: 0, saves: 6 },
+    { playerId: 'p4', goals: 0, assists: 0, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p5', goals: 0, assists: 0, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p8', goals: 0, assists: 0, mvp: false, yellow: 0, saves: 0 },
   ],
   'j3-triana-tios': [
-    { playerId: 'p1', goals: 0, assists: 0, yellow: 0, mvp: true, saves: 10 },
-    { playerId: 'p6', goals: 1, assists: 0, yellow: 0, mvp: false },
-    { playerId: 'p2', goals: 1, assists: 0, yellow: 0, mvp: false },
-    { playerId: 'p3', goals: 0, assists: 1, yellow: 0, mvp: false },
-    { playerId: 'p5', goals: 0, assists: 0, yellow: 0, mvp: false },
-    { playerId: 'p11', goals: 0, assists: 0, yellow: 0, mvp: false },
-    { playerId: 'p8', goals: 0, assists: 0, yellow: 1, mvp: false },
+    { playerId: 'p1', goals: 0, assists: 0, mvp: true, yellow: 0, saves: 8 },
+    { playerId: 'p6', goals: 1, assists: 0, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p7', goals: 1, assists: 0, mvp: false, yellow: 1, saves: 0 },
+    { playerId: 'p8', goals: 1, assists: 1, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p3', goals: 0, assists: 1, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p4', goals: 0, assists: 1, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p5', goals: 0, assists: 0, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p9', goals: 0, assists: 0, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p10', goals: 0, assists: 0, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p11', goals: 0, assists: 0, mvp: false, yellow: 0, saves: 0 },
+    { playerId: 'p12', goals: 0, assists: 0, mvp: false, yellow: 0, saves: 0 },
   ],
 };
 
-// Informes PREPARTIDO archivados por matchId estable (nunca se sobrescriben)
 const preMatchReportsData = {
-  'j1-iss-tios': {
-    matchId: 'j1-iss-tios',
-    matchday: 1,
-    generatedAt: '06/11/2026',
-    status: 'PREPARTIDO',
-    rivalId: 't8',
-    rivalName: 'ISS PRO 2027',
-    rivalPosBefore: null,
-    rivalPtsBefore: 0,
-    ourPosBefore: null,
-    ourPtsBefore: 0,
-    sampleNotice: 'Jornada 1: sin partidos previos disputados en esta competición.',
-    probabilities: { win: 34, draw: 32, loss: 34 },
-    expectedGoals: { home: 1.5, away: 1.5 },
-    keyContext: 'Estreno liguero en el Pabellón CD Tiro de Línea.',
-  },
-  'j2-tios-goat': {
-    matchId: 'j2-tios-goat',
-    matchday: 2,
-    generatedAt: '13/11/2026',
-    status: 'PREPARTIDO',
-    rivalId: 't5',
-    rivalName: 'GOAT F.C.',
-    rivalPosBefore: 2,
-    rivalPtsBefore: 3,
-    ourPosBefore: 3,
-    ourPtsBefore: 3,
-    sampleNotice: 'Muestra pequeña (1 jornada disputada). Estimación orientativa.',
-    probabilities: { win: 46, draw: 24, loss: 30 },
-    expectedGoals: { home: 2.3, away: 2.1 },
-    keyContext: 'GOAT F.C. ganó 5-4 a BDP Post Partido en J1; LOS TIOS FC venció 0-2 a ISS Pro 2027.',
-  },
   'j3-triana-tios': {
     matchId: 'j3-triana-tios',
     matchday: 3,
-    generatedAt: '20/11/2026',
-    status: 'PREPARTIDO',
-    rivalId: 't7',
-    rivalName: 'DEPORTIVO DE TRIANA',
-    rivalPosBefore: 6,
-    rivalPtsBefore: 0,
-    ourPosBefore: 2,
+    generatedAt: '19/11/2026',
+    status: 'POSTPARTIDO',
+    rivalId: 't2',
+    rivalName: 'TRIANA UNITED FC',
+    rivalPosBefore: 2,
+    rivalPtsBefore: 6,
+    ourPosBefore: 1,
     ourPtsBefore: 6,
-    sampleNotice: 'Muestra pequeña (2 jornadas disputadas). Estimación orientativa.',
-    probabilities: { win: 56, draw: 21, loss: 23 },
-    expectedGoals: { home: 1.9, away: 2.5 },
-    keyContext: 'DEPORTIVO DE TRIANA encajó 8 goles en 2 partidos. LOS TIOS FC suma 6 pts (5 TF, 2 TC).',
+    sampleNotice: 'Muestra inicial (2 jornadas disputadas). Estimación orientativa.',
+    probabilities: { win: 46, draw: 24, loss: 30 },
+    expectedGoals: { home: 1.9, away: 2.3 },
+    keyContext: 'Duelo directo entre dos equipos invictos en las dos primeras jornadas (6 pts cada uno).',
   },
   'j4-tios-orden': {
     matchId: 'j4-tios-orden',
@@ -249,288 +207,220 @@ const preMatchReportsData = {
     rivalId: 't3',
     rivalName: 'LA ORDEN F. S.',
     rivalPosBefore: 3,
-    rivalPtsBefore: 7,
-    ourPosBefore: 2,
+    rivalPtsBefore: 6,
+    ourPosBefore: 1,
     ourPtsBefore: 9,
-    sampleNotice: 'Muestra reducida (3 jornadas disputadas por equipo). Probabilidades y xG orientativos.',
-    probabilities: { win: 44, draw: 25, loss: 31 },
-    expectedGoals: { home: 2.6, away: 2.8 },
-    keyContext: 'Duelo directo en la zona alta: LOS TIOS FC (9 pts, 7 TF, 3 TC) ante LA ORDEN F. S. (7 pts, 14 TF, 4 TC).',
+    sampleNotice: 'Muestra reducida (3 jornadas disputadas). Estimación orientativa.',
+    probabilities: { win: 51, draw: 22, loss: 27 },
+    expectedGoals: { home: 2.8, away: 2.1 },
+    keyContext: 'LOS TIOS FC llega líder invicto (9 pts) frente al ataque más goleador (11 TF de LA ORDEN F. S.).',
   },
 };
 
-// Informes POSTPARTIDO vinculados a matchId
 const postMatchReportsData = {
-  'j1-iss-tios': {
-    matchId: 'j1-iss-tios',
-    matchday: 1,
-    recordedAt: '08/11/2026',
-    finalScore: { home: 0, away: 2 },
-    standingsConsequence: 'LOS TIOS FC inicia la liga con 3 puntos y 0 tantos encajados.',
-    automaticConclusion:
-      'LOS TIOS FC cumplió con solvencia en su estreno (0-2), dejando la portería a cero y superando la previsión inicial equilibrada.',
-  },
-  'j2-tios-goat': {
-    matchId: 'j2-tios-goat',
-    matchday: 2,
-    recordedAt: '15/11/2026',
-    finalScore: { home: 3, away: 2 },
-    standingsConsequence: 'LOS TIOS FC alcanza 6 puntos (2/2 victorias).',
-    automaticConclusion:
-      'Victoria ajustada (3-2) con 5 goles totales (por encima de los 4.4 xG combinados previstos), confirmando la tendencia favorable estimada.',
-  },
   'j3-triana-tios': {
     matchId: 'j3-triana-tios',
-    matchday: 3,
     recordedAt: '22/11/2026',
-    finalScore: { home: 1, away: 2 },
-    standingsConsequence: 'LOS TIOS FC suma 9 puntos (3/3 victorias, +4 DG).',
-    automaticConclusion:
-      'Triunfo visitante (1-2) respaldado por las 10 paradas de José (MVP) y un marcador total de 3 tantos (por debajo de los 4.4 xG estimados).',
+    finalScore: { home: 2, away: 3 },
+    standingsConsequence: 'LOS TIOS FC consolida el liderato en solitario (9 pts) y abre brecha de +3 pts sobre TRIANA UNITED FC.',
+    automaticConclusion: 'Se cumplió la proyección ofensiva (5 tantos reales frente a 4.2 xG combinados). El triunfo a domicilio (2-3) confirma la ventaja estimada (46%) pese al equilibrio previo en puntos.',
   },
 };
 
 // ============================================================================
-// 2. FUNCIONES DE CÁLCULO Y RECONSTRUCCIÓN HISTÓRICA
+// 2. FUNCIONES PURAS DE CLASIFICACIÓN Y RACHAS
 // ============================================================================
 
-function buildStandingsUpToMatchday(matches, teams, upToMatchday) {
-  const safeMatches = Array.isArray(matches) ? matches : [];
-  const safeTeams = Array.isArray(teams) ? teams : [];
+function buildStandingsUpToMatchday(matches, teams, maxMatchday) {
+  const map = new Map();
+  teams.forEach((t) => {
+    map.set(t.id, {
+      id: t.id,
+      name: t.name,
+      isOurs: Boolean(t.isOurs),
+      pj: 0,
+      pg: 0,
+      pe: 0,
+      pp: 0,
+      pnp: 0,
+      tf: 0,
+      tc: 0,
+      dg: 0,
+      puntos: 0,
+      form: [],
+      homeRecord: { pj: 0, pg: 0, pe: 0, pp: 0, tf: 0, tc: 0, pts: 0 },
+      awayRecord: { pj: 0, pg: 0, pe: 0, pp: 0, tf: 0, tc: 0, pts: 0 },
+    });
+  });
 
-  const table = safeTeams.map((team) => ({
-    ...team,
-    pj: 0,
-    pg: 0,
-    pe: 0,
-    pp: 0,
-    pnp: team.pnp || 0,
-    tf: 0,
-    tc: 0,
-    dg: 0,
-    puntos: 0,
-    form: [],
-    homeRecord: { pj: 0, pg: 0, pe: 0, pp: 0, tf: 0, tc: 0, pts: 0 },
-    awayRecord: { pj: 0, pg: 0, pe: 0, pp: 0, tf: 0, tc: 0, pts: 0 },
-  }));
-
-  const map = Object.fromEntries(table.map((t) => [t.id, t]));
-
-  const relevant = safeMatches
-    .filter(
-      (m) =>
-        m.matchday <= upToMatchday &&
-        m.played &&
-        m.homeGoals !== null &&
-        m.awayGoals !== null
-    )
+  const orderedMatches = [...matches]
+    .filter((m) => m.played && m.matchday <= maxMatchday)
     .sort((a, b) => a.matchday - b.matchday);
 
-  relevant.forEach((m) => {
-    const home = map[m.homeId];
-    const away = map[m.awayId];
+  orderedMatches.forEach((m) => {
+    const home = map.get(m.homeId);
+    const away = map.get(m.awayId);
     if (!home || !away) return;
+
+    const hg = Number(m.homeGoals ?? 0);
+    const ag = Number(m.awayGoals ?? 0);
 
     home.pj += 1;
     away.pj += 1;
+    home.tf += hg;
+    home.tc += ag;
+    away.tf += ag;
+    away.tc += hg;
+
     home.homeRecord.pj += 1;
+    home.homeRecord.tf += hg;
+    home.homeRecord.tc += ag;
+
     away.awayRecord.pj += 1;
+    away.awayRecord.tf += ag;
+    away.awayRecord.tc += hg;
 
-    home.tf += m.homeGoals;
-    home.tc += m.awayGoals;
-    home.homeRecord.tf += m.homeGoals;
-    home.homeRecord.tc += m.awayGoals;
-
-    away.tf += m.awayGoals;
-    away.tc += m.homeGoals;
-    away.awayRecord.tf += m.awayGoals;
-    away.awayRecord.tc += m.homeGoals;
-
-    if (m.homeGoals > m.awayGoals) {
+    if (hg > ag) {
       home.pg += 1;
       home.puntos += 3;
+      home.form.push('W');
       home.homeRecord.pg += 1;
       home.homeRecord.pts += 3;
-      home.form.push('W');
 
       away.pp += 1;
-      away.awayRecord.pp += 1;
       away.form.push('L');
-    } else if (m.homeGoals < m.awayGoals) {
+      away.awayRecord.pp += 1;
+    } else if (hg < ag) {
       away.pg += 1;
       away.puntos += 3;
+      away.form.push('W');
       away.awayRecord.pg += 1;
       away.awayRecord.pts += 3;
-      away.form.push('W');
 
       home.pp += 1;
-      home.homeRecord.pp += 1;
       home.form.push('L');
+      home.homeRecord.pp += 1;
     } else {
       home.pe += 1;
       home.puntos += 1;
+      home.form.push('D');
       home.homeRecord.pe += 1;
       home.homeRecord.pts += 1;
-      home.form.push('D');
 
       away.pe += 1;
       away.puntos += 1;
+      away.form.push('D');
       away.awayRecord.pe += 1;
       away.awayRecord.pts += 1;
-      away.form.push('D');
     }
   });
 
-  table.forEach((t) => {
-    t.dg = t.tf - t.tc;
-  });
+  const list = Array.from(map.values()).map((t) => ({
+    ...t,
+    dg: t.tf - t.tc,
+  }));
 
-  table.sort((a, b) => {
+  list.sort((a, b) => {
     if (b.puntos !== a.puntos) return b.puntos - a.puntos;
     if (b.dg !== a.dg) return b.dg - a.dg;
     if (b.tf !== a.tf) return b.tf - a.tf;
     return a.name.localeCompare(b.name);
   });
 
-  return table.map((item, idx) => ({
-    ...item,
-    position: idx + 1,
-  }));
+  return list.map((t, idx) => ({ ...t, position: idx + 1 }));
 }
 
-function computeStreakMetrics(formArray = []) {
-  let currentType = null;
-  let currentLength = 0;
-
-  for (let i = formArray.length - 1; i >= 0; i--) {
-    const res = formArray[i];
-    if (i === formArray.length - 1) {
-      currentType = res;
-      currentLength = 1;
-    } else if (res === currentType) {
-      currentLength += 1;
-    } else {
-      break;
-    }
+function computeStreakMetrics(form = []) {
+  if (!Array.isArray(form) || form.length === 0) {
+    return {
+      currentType: null,
+      currentCount: 0,
+      currentLabel: 'Sin datos',
+      maxWinStreak: 0,
+      maxLossStreak: 0,
+    };
   }
 
   let maxWinStreak = 0;
-  let runningWin = 0;
   let maxLossStreak = 0;
-  let runningLoss = 0;
+  let runW = 0;
+  let runL = 0;
 
-  formArray.forEach((r) => {
-    if (r === 'W') {
-      runningWin += 1;
-      maxWinStreak = Math.max(maxWinStreak, runningWin);
-      runningLoss = 0;
-    } else if (r === 'L') {
-      runningLoss += 1;
-      maxLossStreak = Math.max(maxLossStreak, runningLoss);
-      runningWin = 0;
+  form.forEach((res) => {
+    if (res === 'W') {
+      runW += 1;
+      runL = 0;
+      if (runW > maxWinStreak) maxWinStreak = runW;
+    } else if (res === 'L') {
+      runL += 1;
+      runW = 0;
+      if (runL > maxLossStreak) maxLossStreak = runL;
     } else {
-      runningWin = 0;
-      runningLoss = 0;
+      runW = 0;
+      runL = 0;
     }
   });
 
-  const currentLabel =
-    currentLength === 0
-      ? 'Sin partidos'
-      : currentType === 'W'
-      ? `${currentLength}V`
-      : currentType === 'D'
-      ? `${currentLength}E`
-      : `${currentLength}D`;
+  const last = form[form.length - 1];
+  let currentCount = 0;
+  for (let i = form.length - 1; i >= 0; i -= 1) {
+    if (form[i] === last) currentCount += 1;
+    else break;
+  }
 
+  const suffix = last === 'W' ? 'V' : last === 'D' ? 'E' : 'D';
   return {
-    currentType,
-    currentLength,
-    currentLabel,
+    currentType: last,
+    currentCount,
+    currentLabel: `${currentCount}${suffix}`,
     maxWinStreak,
     maxLossStreak,
   };
 }
 
 // ============================================================================
-// 3. ESCUDO SVG DE "LOS TIOS FC" Y GRÁFICA SVG DE EVOLUCIÓN
+// 3. ESCUDO OFICIAL DE "LOS TIOS FC" Y GRÁFICA SVG DE EVOLUCIÓN
 // ============================================================================
 
+const OFFICIAL_CREST_IMG = './escudo-los-tios.png';
+
 function LosTiosCrest({ className = 'w-11 h-11' }) {
-  const uid = React.useId().replace(/:/g, '');
-  const topArcId = `topArcLosTios-${uid}`;
-  const bottomArcId = `bottomArcSevilla-${uid}`;
+  const [imgError, setImgError] = useState(false);
 
   return (
-    <svg
-      viewBox="0 0 200 200"
-      className={`${className} shrink-0 select-none`}
-      xmlns="http://www.w3.org/2000/svg"
+    <div
+      className={`${className} rounded-full overflow-hidden shrink-0 select-none flex items-center justify-center bg-transparent`}
+      role="img"
       aria-label="Escudo LOS TIOS FC Sevilla"
     >
-      <defs>
-        <path id={topArcId} d="M 34,102 A 66,66 0 1,1 166,102" />
-        <path id={bottomArcId} d="M 29,108 A 71,71 0 0,0 171,108" />
-      </defs>
-
-      {/* Anillos concéntricos exteriores (carbón - rojo - carbón) */}
-      <circle cx="100" cy="100" r="99" fill="#232326" />
-      <circle cx="100" cy="100" r="93" fill="#cf3524" />
-      <circle cx="100" cy="100" r="88.5" fill="#18181a" />
-
-      {/* Franjas laterales trapezoidales rojas */}
-      <path d="M 11.5,82.5 L 48,88.5 L 48,111.5 L 11.5,117.5 A 88.5,88.5 0 0,1 11.5,82.5 Z" fill="#cf3524" />
-      <path d="M 188.5,82.5 L 152,88.5 L 152,111.5 L 188.5,117.5 A 88.5,88.5 0 0,0 188.5,82.5 Z" fill="#cf3524" />
-
-      {/* Aspas blancas laterales */}
-      <g stroke="#ffffff" strokeWidth="4.4" strokeLinecap="butt">
-        <line x1="23.5" y1="94.5" x2="35.5" y2="105.5" />
-        <line x1="35.5" y1="94.5" x2="23.5" y2="105.5" />
-        <line x1="164.5" y1="94.5" x2="176.5" y2="105.5" />
-        <line x1="176.5" y1="94.5" x2="164.5" y2="105.5" />
-      </g>
-
-      {/* Medallón central rojo con borde oscuro */}
-      <circle cx="100" cy="100" r="52.5" fill="#cf3524" stroke="#18181a" strokeWidth="3.8" />
-
-      {/* Tipografía superior: LOS TIOS FC */}
-      <text
-        fill="#ffffff"
-        fontSize="21.5"
-        fontWeight="900"
-        letterSpacing="1.3"
-        fontFamily="Impact, 'Arial Narrow', 'Bebas Neue', system-ui, sans-serif"
-      >
-        <textPath href={`#${topArcId}`} startOffset="50%" textAnchor="middle">
-          LOS TIOS FC
-        </textPath>
-      </text>
-
-      {/* Tipografía inferior: SEVILLA */}
-      <text
-        fill="#ffffff"
-        fontSize="20.5"
-        fontWeight="900"
-        letterSpacing="2.2"
-        fontFamily="Impact, 'Arial Narrow', 'Bebas Neue', system-ui, sans-serif"
-      >
-        <textPath href={`#${bottomArcId}`} startOffset="50%" textAnchor="middle">
-          SEVILLA
-        </textPath>
-      </text>
-
-      {/* Monograma central TL idéntico al emblema original */}
-      <g fill="#ffffff">
-        {/* Barra superior de la T con remates slab verticales */}
-        <path d="M 65.5,67 L 134.5,67 L 134.5,88.5 L 122,88.5 L 122,78.5 L 78,78.5 L 78,88.5 L 65.5,88.5 Z" />
-        {/* Fuste vertical izquierdo de la T */}
-        <rect x="87" y="77.5" width="15" height="53.5" />
-        {/* Base inferior de la T */}
-        <rect x="78.5" y="121.5" width="23.5" height="9.5" />
-        {/* Fuste y brazo inferior derecho de la L (con hendidura vertical roja de separación) */}
-        <path d="M 105.8,77.5 L 116.5,77.5 L 116.5,121.5 L 126,121.5 L 126,112 L 134.5,112 L 134.5,131 L 105.8,131 Z" />
-      </g>
-    </svg>
+      {!imgError ? (
+        <img
+          src={OFFICIAL_CREST_IMG}
+          alt="Escudo LOS TIOS FC Sevilla"
+          onError={() => setImgError(true)}
+          className="w-full h-full object-cover rounded-full block"
+          draggable={false}
+        />
+      ) : (
+        <svg viewBox="0 0 200 200" className="w-full h-full">
+          <circle cx="100" cy="100" r="97" fill="#2b282b" />
+          <circle cx="100" cy="100" r="91.5" fill="#e32812" />
+          <circle cx="100" cy="100" r="83" fill="#141114" />
+          <circle cx="100" cy="100" r="41" fill="#e32812" />
+          <text
+            x="100"
+            y="114"
+            textAnchor="middle"
+            fill="#ffffff"
+            fontSize="44"
+            fontWeight="900"
+            fontFamily="Impact, sans-serif"
+          >
+            TL
+          </text>
+        </svg>
+      )}
+    </div>
   );
 }
 
